@@ -1,14 +1,36 @@
-import { createEffect, createSignal } from "solid-js";
+import { invoke } from "@tauri-apps/api/core";
+import { createSignal, createEffect, Show, For, Component } from "solid-js";
+import { Link } from "@solidjs/router";
 
-const HomePage = () => {
-  const [userName, setUserName] = createSignal<string>(localStorage.getItem("u_name") || "Unknown");
-  const [userEmail, setUserEmail] = createSignal<string>(localStorage.getItem("u_email") || "Unknown");
+const HomePage: Component = () => {
+  const [userId, _setUserId] = createSignal<string>(
+    localStorage.getItem("u_id") || "Unknown"
+  );
+  const [userName, _setUserName] = createSignal<string>(
+    localStorage.getItem("u_name") || "Unknown"
+  );
+  const [userEmail, _setUserEmail] = createSignal<string>(
+    localStorage.getItem("u_email") || "Unknown"
+  );
+  const [accessToken, _setAcessToken] = createSignal<string>(
+    localStorage.getItem("access") || "Unknown"
+  );
+  const [servers, setServers] = createSignal<UserServersDTO | null>(null);
+  const [loading, setLoading] = createSignal<boolean>(true);
 
-  const servers = [
-    { id: 1, name: "Server 1", status: "Online" },
-    { id: 2, name: "Server 2", status: "Offline" },
-    { id: 3, name: "Server 3", status: "Online" },
-  ];
+  const fetchServers = async () => {
+    await invoke<UserServersDTO>("get_user_servers", {
+      uId: Number(userId()),
+      accessToken: accessToken(),
+    })
+      .then((response) => setServers(response))
+      .catch((error) => console.error("Error fetching servers:", error))
+      .finally(() => setLoading(false));
+  };
+
+  createEffect(() => {
+    fetchServers();
+  });
 
   return (
     <main class="container">
@@ -21,13 +43,19 @@ const HomePage = () => {
       </div>
       <div>
         <h3>Server List</h3>
-        <ul>
-          {servers.map(server => (
-            <li key={server.id}>
-              {server.name} - {server.status}
-            </li>
-          ))}
-        </ul>
+        <Show when={!loading()} fallback={<p>Loading servers...</p>}>
+          <For each={servers()?.result}>
+            {(server) => (
+              <div>
+                <Link href={`/server/${server.id.toString()}`}>
+                  <p>
+                    {server.id} - {server.name}
+                  </p>
+                </Link>
+              </div>
+            )}
+          </For>
+        </Show>
       </div>
     </main>
   );

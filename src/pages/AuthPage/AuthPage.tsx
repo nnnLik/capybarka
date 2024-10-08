@@ -1,17 +1,8 @@
-// import { useNavigate } from "@solidjs/router";
 import { invoke } from "@tauri-apps/api/core";
-import { createSignal } from "solid-js";
-import { RouterEnum } from "../constants";
+import { Component, createSignal } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 
-interface AuthResponse {
-    access: string,
-    u_id: number,
-    u_name: string,
-    u_email: string,
-}
-
-const AuthPage = () => {
+const AuthPage: Component = () => {
   const navigate = useNavigate();
   const [email, setEmail] = createSignal<string>("");
   const [password, setPassword] = createSignal<string>("");
@@ -19,19 +10,19 @@ const AuthPage = () => {
 
   const handleLogin = async () => {
     try {
-      const authResponse = await invoke<AuthResponse>("login", { email: email(), password: password() });
-      console.log(authResponse);
-      
-      if (authResponse) {
-        localStorage.setItem("u_id", authResponse.u_id.toString());
-        localStorage.setItem("u_name", authResponse.u_name);
-        localStorage.setItem("u_email", authResponse.u_email);
-        localStorage.setItem("access", authResponse.access);
-        setStatus("Login successful");
-        navigate(RouterEnum.HOME);
-      } else {
-        setStatus("Login failed");
-      }
+      await invoke<AuthResponse>("login", { email: email(), password: password() })
+        .then(response => {
+            localStorage.setItem("u_id", response.u_id.toString());
+            localStorage.setItem("u_name", response.u_name);
+            localStorage.setItem("u_email", response.u_email);
+            localStorage.setItem("access", response.access);
+            setStatus("Login successful");
+            navigate('/home');
+        })
+        .catch(err_msg => {
+            console.log("Login failed. Exc " + err_msg);
+            setStatus("Login failed")
+        });
     } catch (error) {
       setStatus(`Error: ${error}`);
     }

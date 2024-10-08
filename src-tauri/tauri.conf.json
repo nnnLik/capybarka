@@ -16,7 +16,6 @@
         "width": 640,
         "height": 360,
         "resizable": false,
-        "closable": false,
         "maximizable": false,
         "minimizable": false
       }
