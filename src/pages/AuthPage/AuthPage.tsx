@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { Component, createSignal } from "solid-js";
 import { useNavigate } from "@solidjs/router";
+import { Button } from "../../components/ui/button.tsx";
 
 const AuthPage: Component = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const AuthPage: Component = () => {
           onInput={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button type="button" onClick={handleLogin}>Login</button>
+      <Button type="button" onClick={handleLogin}>Login</Button>
       <div>{status()}</div>
     </main>
   );

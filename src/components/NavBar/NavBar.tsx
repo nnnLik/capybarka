@@ -9,6 +9,7 @@ const NavBar: Component = () => {
     <nav class="navbar">
       <div class="navbar-content">
         <Show when={location.pathname !== "/"}>
+          <h1 className="navbar-title">Your App Title</h1>
           <Show when={location.pathname !== "/home"}>
             <Link href="/home" class="back-button">
               &#8592;
@@ -18,7 +19,6 @@ const NavBar: Component = () => {
             🏠
           </Link>
         </Show>
-        <h1 class="navbar-title">Your App Title</h1>
       </div>
     </nav>
   );
