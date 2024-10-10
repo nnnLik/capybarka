@@ -1,7 +1,7 @@
 import { Component, lazy, onMount } from "solid-js";
 import { Route, Routes } from "@solidjs/router";
-import './App.css'
 import NavBar from "./components/NavBar/NavBar";
+import './App.css'
 
 const App: Component = () => {
   // TODO: uncomment

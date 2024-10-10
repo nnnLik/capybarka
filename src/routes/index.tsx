@@ -1,4 +1,4 @@
-import App from "./App";
+import App from "../App.tsx";
 import { Router } from "@solidjs/router";
 import { Component } from "solid-js";
 
