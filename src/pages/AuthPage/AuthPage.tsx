@@ -16,6 +16,7 @@ const AuthPage: Component = () => {
             localStorage.setItem("u_id", response.u_id.toString());
             localStorage.setItem("u_name", response.u_name);
             localStorage.setItem("u_email", response.u_email);
+            localStorage.setItem("u_avatar", response.u_avatar);
             localStorage.setItem("access", response.access);
             setStatus("Login successful");
             navigate('/home');

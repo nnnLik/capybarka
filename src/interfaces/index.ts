@@ -9,6 +9,7 @@ interface UserDTO {
 interface AuthResponse {
   access: string;
   u_id: number;
+  u_avatar: string;
   u_name: string;
   u_email: string;
 }
