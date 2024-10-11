@@ -14,16 +14,8 @@ interface AuthResponse {
   u_email: string;
 }
 
-interface UserServerDTO {
-  id: number;
-  name: string;
-  image: string | null;
-  count_of_members: number;
-  count_of_online_members: number;
-}
-
 interface UserServersDTO {
-  result: UserServerDTO[];
+  result: UserServerDetailDTO[];
   count_of_servers: number;
 }
 
@@ -31,6 +23,7 @@ interface UserServerDetailDTO {
   id: number;
   name: string;
   admin_id: string;
+  image: string | null;
   members: UserDTO[];
   count_of_members: number;
   count_of_online_members: number;
