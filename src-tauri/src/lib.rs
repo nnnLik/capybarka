@@ -70,8 +70,20 @@ async fn get_user_servers(uId: usize, accessToken: String) -> GetUserServersResp
                 count_of_members: 200,
                 count_of_online_members: 100,
             },
+            UserServerResponse {
+                id: 3,
+                name: "Server 3".to_string(),
+                count_of_members: 100,
+                count_of_online_members: 50,
+            },
+            UserServerResponse {
+                id: 4,
+                name: "Server 4".to_string(),
+                count_of_members: 200,
+                count_of_online_members: 100,
+            },
         ],
-        count_of_servers: 2,
+        count_of_servers: 4,
     };
     mock_response
 }

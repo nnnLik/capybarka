@@ -139,3 +139,18 @@
 ::-webkit-scrollbar-corner {
   display: none;
 }
+
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* Отключает скролл для всей страницы */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Убирает видимые полосы прокрутки */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* Для IE */
+  scrollbar-width: none; /* Для Firefox */
+}

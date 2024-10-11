@@ -13,11 +13,17 @@ const AuthPage: Component = () => {
     try {
       await invoke<AuthResponse>("login", { email: email(), password: password() })
         .then(response => {
+            const avatar = response.u_avatar
+
             localStorage.setItem("u_id", response.u_id.toString());
             localStorage.setItem("u_name", response.u_name);
             localStorage.setItem("u_email", response.u_email);
-            localStorage.setItem("u_avatar", response.u_avatar);
             localStorage.setItem("access", response.access);
+
+            if (avatar) {
+              localStorage.setItem("u_avatar", response.u_avatar);
+            }
+
             setStatus("Login successful");
             navigate('/home');
         })

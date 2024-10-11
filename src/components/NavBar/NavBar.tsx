@@ -9,7 +9,6 @@ const NavBar: Component = () => {
     <nav class="navbar">
       <div class="navbar-content">
         <Show when={location.pathname !== "/"}>
-          <h1 className="navbar-title">Your App Title</h1>
           <Show when={location.pathname !== "/home"}>
             <Link href="/home" class="back-button">
               &#8592;

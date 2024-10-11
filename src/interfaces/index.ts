@@ -17,6 +17,7 @@ interface AuthResponse {
 interface UserServerDTO {
   id: number;
   name: string;
+  image: string | null;
   count_of_members: number;
   count_of_online_members: number;
 }
