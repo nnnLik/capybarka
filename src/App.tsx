@@ -1,7 +1,12 @@
 import { Component, lazy, onMount } from "solid-js";
 import { Route, Routes } from "@solidjs/router";
 import NavBar from "./components/NavBar";
-import './App.css'
+import {
+  ColorModeProvider,
+  ColorModeScript,
+  createLocalStorageManager,
+} from "@kobalte/core";
+import "./App.css";
 
 const App: Component = () => {
   // TODO: uncomment
@@ -23,19 +28,32 @@ const App: Component = () => {
   // createEffect(() => {
   //   is_user_data_valid();
   // });
+  const storageManager = createLocalStorageManager("vite-ui-theme");
 
   return (
     <>
-      <NavBar />
-      <Routes>
-        <Route
-          path="/"
-          component={lazy(() => import("./pages/AuthPage/AuthPage"))}
-        />
-        <Route path="/home" component={lazy(() => import("./pages/HomePage/HomePage"))} />
-        <Route path="/server/:serverId" component={lazy(() => import("./pages/ServerPage/ServerPage"))} />
-        <Route path="*" component={lazy(() => import("./pages/NotFoundPage/NotFoundPage"))} />
-      </Routes>
+      <ColorModeScript storageType={storageManager.type} />
+      <ColorModeProvider storageManager={storageManager}>
+        <NavBar />
+        <Routes>
+          <Route
+            path="/"
+            component={lazy(() => import("./pages/AuthPage/AuthPage"))}
+          />
+          <Route
+            path="/home"
+            component={lazy(() => import("./pages/HomePage/HomePage"))}
+          />
+          <Route
+            path="/server/:serverId"
+            component={lazy(() => import("./pages/ServerPage/ServerPage"))}
+          />
+          <Route
+            path="*"
+            component={lazy(() => import("./pages/NotFoundPage/NotFoundPage"))}
+          />
+        </Routes>
+      </ColorModeProvider>
     </>
   );
 };
