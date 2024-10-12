@@ -28,3 +28,11 @@ interface UserServerDetailDTO {
   count_of_members: number;
   count_of_online_members: number;
 }
+
+interface MessageDTO {
+  id: number;
+  user_id: number;
+  server_id: number;
+  content: string;
+  created_at: string;
+}

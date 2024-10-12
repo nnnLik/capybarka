@@ -3,11 +3,6 @@ import { invoke } from "@tauri-apps/api/core";
 import { Link } from "@solidjs/router";
 import { Col, Grid } from "../../components/ui/grid";
 import { Card, CardDescription } from "../../components/ui/card";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../components/ui/avatar";
 import DefaultImage from "../../components/DefaultImage";
 
 const HomePage: Component = () => {
@@ -25,7 +20,7 @@ const HomePage: Component = () => {
     localStorage.getItem("access")
   );
   const [servers, setServers] = createSignal<UserServersDTO | null>(null);
-  const [loading, setLoading] = createSignal<boolean>(true);
+  const [loading, setLoading] = createSignal<boolean>(true);  // TODO: change
 
   const fetchServers = async () => {
     await invoke<UserServersDTO>("get_user_servers", {

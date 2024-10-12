@@ -3,14 +3,10 @@ import { invoke } from "@tauri-apps/api/core";
 import { Component, createSignal, For, onMount, Show } from "solid-js";
 import { Grid, Col } from "../../components/ui/grid";
 import { Card } from "../../components/ui/card";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../components/ui/avatar";
 import { AiOutlineSend } from "solid-icons/ai";
 import { Button } from "../../components/ui/button";
 import Message from "../../components/Message";
+import DefaultImage from "../../components/DefaultImage";
 
 const ServerPage: Component = () => {
   const params = useParams();
@@ -19,7 +15,7 @@ const ServerPage: Component = () => {
   );
   const [serverDetailDTO, setServerDetailDTO] =
     createSignal<UserServerDetailDTO | null>(null);
-  const [loading, setLoading] = createSignal<boolean>(true);
+  const [loading, setLoading] = createSignal<boolean>(true); // TODO: change
   const [message, setMessage] = createSignal<string>("");
 
   const fetchServerInfo = async () => {
@@ -42,6 +38,46 @@ const ServerPage: Component = () => {
     fetchServerInfo();
   });
 
+  const mock_members = [
+    {
+      id: 1,
+      username: "test user 1",
+      email: "test@gmail.com",
+      avatar_uri: "https://github.com/sek-consulting.png",
+      created_at: "2024-12-12 12:12:12",
+    },
+    {
+      id: 2,
+      username: "test user 2",
+      email: "test@gmail.com",
+      avatar_uri: "https://github.com/sek-consulting.png",
+      created_at: "2024-12-12 12:12:12",
+    },
+    {
+      id: 3,
+      username: "test user 3",
+      email: "test@gmail.com",
+      avatar_uri: "https://github.com/sek-consulting.png",
+      created_at: "2024-12-12 12:12:12",
+    },
+  ];
+  const mock_msgs = [
+    {
+      id: 1,
+      user_id: 1,
+      server_id: 1,
+      content: "Ну привет, кис.",
+      created_at: "2024-12-12 12:12:12",
+    },
+    {
+      id: 2,
+      user_id: 2,
+      server_id: 1,
+      content: "Боже, это снова ты...",
+      created_at: "2024-12-12 12:12:12",
+    },
+  ];
+
   return (
     <div class="container mx-auto p-4 h-screen">
       <Grid cols={3} class="gap-4 h-80">
@@ -50,11 +86,27 @@ const ServerPage: Component = () => {
             <div class="flex-1 overflow-y-auto">
               <div class="flex flex-col">
                 <Show when={!loading()} fallback={<p>Loading...</p>}>
-                  {/* <Message id={} />
-                  <Message /> */}
-                  {/* <For each={serverDetailDTO()?.messages || []}>
-                    {(message) => <div class="mb-2">{message}</div>}
-                  </For> */}
+                  {/* TODO: add real shit */}
+                  <For each={mock_msgs}>
+                    {(message_dto) => {
+                      const member = mock_members.find(
+                        (member) => member.id === message_dto.user_id
+                      );
+
+                      if (member) {
+                        return (
+                          <Message
+                            avatar={member.avatar_uri}
+                            username={member.username}
+                            content={message_dto.content}
+                            created_at={message_dto.created_at}
+                            // TODO: ???
+                            // isUserMessage={true} 
+                          />
+                        );
+                      }
+                    }}
+                  </For>
                 </Show>
               </div>
             </div>
@@ -67,40 +119,32 @@ const ServerPage: Component = () => {
                 value={message()}
                 onInput={(e) => setMessage(e.currentTarget.value)}
               />
-              {/* <Button type="button" onClick={handleSendMessage}>
-              <AiOutlineSend />
-              </Button> */}
-              <button
-                class="ml-2 bg-blue-500 text-white rounded-lg p-2"
-                onClick={handleSendMessage}
-              >
+              <Button class="ml-2" type="button" onClick={handleSendMessage}>
                 <AiOutlineSend />
-              </button>
+              </Button>
             </div>
           </Card>
         </Col>
 
         <Col span={1}>
           <Card class="border border-gray-300 rounded-lg p-4 h-full">
-            <h3 class="font-bold text-lg mb-4">Участники</h3>
-            <Show when={loading()} fallback={<p>Загрузка участников...</p>}>
-              <For each={serverDetailDTO()?.members}>
+            <h3 class="text-gray-500 text-sm mb-2 text-center">Members</h3>
+            <Show when={!loading()} fallback={<p>Loading...</p>}>
+              {/* TODO: EBATI mocki */}
+              <For each={mock_members}>
                 {(member) => (
-                  <div class="flex items-center mb-2" key={member.id}>
-                    <Avatar class="mr-2">
-                      <Show
-                        when={member.avatar}
-                        fallback={
-                          <AvatarFallback>
-                            {member.name.slice(0, 2).toUpperCase()}
-                          </AvatarFallback>
-                        }
-                      >
-                        <AvatarImage src={member.avatar} />
-                      </Show>
-                    </Avatar>
-                    <span>{member.name}</span>
-                  </div>
+                  <Card
+                    class="flex items-center mb-2 h-12 shadow-lg transition duration-300 hover:bg-gray-100 hover:scale-95"
+                    key={member.id}
+                  >
+                    <DefaultImage
+                      uri={member.avatar_uri}
+                      fallback_text={member.username.slice(0, 2).toUpperCase()}
+                      class="ml-2 mr-2 size-7"
+                    />
+                    <span>{member.username}</span>
+                    {/* TODO: online status */}
+                  </Card>
                 )}
               </For>
             </Show>
