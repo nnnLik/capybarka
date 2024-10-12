@@ -20,8 +20,8 @@ const NavBar: Component = () => {
 
   return (
     <>
-      <Menubar class="flex justify-between items-center rounded-b-lg shadow-lg">
-        <Show when={location.pathname !== "/"}>
+      <Show when={location.pathname !== "/"}>
+        <Menubar class="flex justify-between items-center rounded-b-lg shadow-lg">
           <MenubarMenu>
             <Link href="/home" class="flex justify-center items-center pl-80">
               <AiOutlineHome />
@@ -53,8 +53,8 @@ const NavBar: Component = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </MenubarMenu>
-        </Show>
-      </Menubar>
+        </Menubar>
+      </Show>
     </>
   );
 };

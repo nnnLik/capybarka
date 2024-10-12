@@ -17,7 +17,10 @@
         "height": 380,
         "resizable": false,
         "maximizable": false,
-        "minimizable": false
+        "minimizable": false,
+        "dragDropEnabled": true,
+        "titleBarStyle": "Overlay",
+        "shadow": true
       }
     ],
     "security": {
