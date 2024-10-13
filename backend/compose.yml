@@ -1,0 +1,27 @@
+x-app-container: &app-container
+  stdin_open: true
+  tty: true
+  build:
+    context: .
+    target: dev
+  volumes:
+    - ./:/opt/app
+  env_file:
+    - vars/dev.env
+    - vars/dev.local
+  depends_on:
+    aligator-rabbitmq:
+      condition: service_healthy
+    aligator-mongodb:
+      condition: service_healthy
+
+
+
+services:
+  capybarka-web:
+  
+  capybarka-postgres:
+
+  capybarka-mongodb:
+
+  capybarka-nuts:
