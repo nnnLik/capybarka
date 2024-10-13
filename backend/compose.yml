@@ -10,18 +10,78 @@ x-app-container: &app-container
     - vars/dev.env
     - vars/dev.local
   depends_on:
-    aligator-rabbitmq:
+    capybarka-nuts:
       condition: service_healthy
-    aligator-mongodb:
+    capybarka-mongodb:
       condition: service_healthy
 
 
 
 services:
   capybarka-web:
+    container_name: capybarka-web
+    command: ...
+    networks:
+      default:
+        aliases:
+          - web.capybarka.docker
   
   capybarka-postgres:
+    container_name: capybarka-postgres
+    image: postgres:17.0
+    environment:
+      - POSTGRES_USER=capybarka
+      - POSTGRES_PASSWORD=capybarka
+    expose:
+      - "5432"
+    ports:
+      - '5469:5432'
+    volumes:
+      - ./.docker-data/postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s  
+    networks:
+      default:
+        aliases:
+          - postgres.capybarka.docker
 
   capybarka-mongodb:
+    container_name: capybarka-mongodb
+    image: mongo:8.0.1
+    restart: unless-stopped
+    volumes:
+      - ./.docker-data/mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: capybarka
+      MONGO_INITDB_ROOT_PASSWORD: capybarka
+    expose:
+      - "27017"
+    ports:
+      - "27020:27017"
+    healthcheck:
+      test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      default:
+        aliases:
+          - mongo.capybarka.docker
 
-  capybarka-nuts:
+  capybarka-nats:
+    image: nats:2.10.21
+
+
+volumes:
+  mongodb_data:
+  postgres_data:
+
+networks:
+  default:
+  capybarka_global_network:
+    external: true
+
