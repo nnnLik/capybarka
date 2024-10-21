@@ -3,3 +3,6 @@ dist
 .vscode/
 .idea/
 dev.local
+venv/
+__pycache__
+.docker-data

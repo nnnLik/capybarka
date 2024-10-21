@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["nnnLik <rslmakhmudov@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+esmerald = "3.4.3"
+uvicorn = "^0.32.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "0.7.0"
+pytest = "8.3.3"
+mypy = "1.12.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

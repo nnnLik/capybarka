@@ -15,17 +15,21 @@ x-app-container: &app-container
     capybarka-mongodb:
       condition: service_healthy
 
-
-
 services:
   capybarka-web:
     container_name: capybarka-web
-    command: ...
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: dev
+    command: esmerald runserver --settings configs.development.settings.AppSettings
+    ports:
+      - "6969:8000"
     networks:
       default:
         aliases:
           - web.capybarka.docker
-  
+
   capybarka-postgres:
     container_name: capybarka-postgres
     image: postgres:17.0
@@ -72,16 +76,10 @@ services:
         aliases:
           - mongo.capybarka.docker
 
-  capybarka-nats:
-    image: nats:2.10.21
-
-
 volumes:
   mongodb_data:
   postgres_data:
 
 networks:
   default:
-  capybarka_global_network:
-    external: true
 
