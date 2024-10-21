@@ -7,8 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-esmerald = "3.4.3"
-uvicorn = "^0.32.0"
+uvicorn = "0.32.0"
+ipython = "8.28.0"
 
 
 [tool.poetry.group.dev.dependencies]

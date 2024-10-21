@@ -2,7 +2,7 @@ node_modules
 dist
 .vscode/
 .idea/
-backend/dev.local
 venv/
 __pycache__
 .docker-data
+backend/vars/dev.local

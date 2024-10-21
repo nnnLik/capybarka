@@ -22,7 +22,7 @@ services:
       context: ./
       dockerfile: Dockerfile
       target: dev
-    command: esmerald runserver --settings configs.development.settings.AppSettings
+    command: esmerald runserver
     ports:
       - "6969:8000"
     networks:
