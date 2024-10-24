@@ -1,18 +1,10 @@
-from sanic import Sanic
-from sanic_ext import Extend
-
-from mayim.extension import SanicMayimExtension
+from fastapi import FastAPI
 
 from config import settings
 
-app = Sanic.get_app('Capybarka')
-Extend.register(
-    SanicMayimExtension(
-        executors=[],
-        dsn=settings.postgres.DATABASE_DSN,
-    )
-)
+from infra.app import create_application
 
+app: FastAPI = create_application()
 
 if __name__ == "__main__":
     import uvicorn
@@ -22,4 +14,6 @@ if __name__ == "__main__":
         port=settings.app.PORT,
         workers=settings.app.WORKERS,
         reload=settings.app.RELOAD,
+        log_level='debug',
+        access_log=True,
     )

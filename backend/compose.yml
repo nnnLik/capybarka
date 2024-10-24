@@ -10,40 +10,41 @@ x-app-container: &app-container
     - vars/dev.env
     - vars/dev.local
   depends_on:
-    capybarka-nuts:
-      condition: service_healthy
     capybarka-mongodb:
       condition: service_healthy
 
 services:
   capybarka-web:
+    <<: *app-container
     container_name: capybarka-web
     build:
       context: ./
       dockerfile: Dockerfile
       target: dev
-    command: esmerald runserver
+    command: python main.py
     ports:
-      - "6969:8000"
+      - "6969:8080"
     networks:
       default:
         aliases:
-          - web.capybarka.docker
+          - capybarka.web.docker
 
   capybarka-postgres:
     container_name: capybarka-postgres
-    image: postgres:17.0
+    image: postgres:17.0-alpine
     environment:
       - POSTGRES_USER=capybarka
       - POSTGRES_PASSWORD=capybarka
+      - POSTGRES_DB=capybarka
     expose:
       - "5432"
     ports:
       - '5469:5432'
     volumes:
-      - ./.docker-data/postgres_data:/var/lib/postgresql/data
+      - ./.docker-data/postgres_data:/var/lib/postgresql/data/
+      - ./src/infra/migrations/:/docker-entrypoint-initdb.d/
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      test: ["CMD-SHELL", "pg_isready", "-d", "capybarka"]
       interval: 30s
       timeout: 60s
       retries: 5
@@ -51,7 +52,7 @@ services:
     networks:
       default:
         aliases:
-          - postgres.capybarka.docker
+          - capybarka.postgres.docker
 
   capybarka-mongodb:
     container_name: capybarka-mongodb
@@ -65,7 +66,7 @@ services:
     expose:
       - "27017"
     ports:
-      - "27020:27017"
+      - "27069:27017"
     healthcheck:
       test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -74,7 +75,7 @@ services:
     networks:
       default:
         aliases:
-          - mongo.capybarka.docker
+          - capybarka.mongo.docker
 
 volumes:
   mongodb_data:

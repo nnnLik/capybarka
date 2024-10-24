@@ -7,14 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+fastapi = "0.115.3"
 uvicorn = "0.32.0"
-ipython = "8.28.0"
-sanic = "24.6.0"
+psycopg = {extras = ["binary"], version = "3.2.3"}
 mayim = {extras = ["postgres"], version = "1.1.0"}
 pydantic = "2.9.2"
 pydantic-settings = "2.6.0"
-sanic-ext = "^23.12.0"
-psycopg = {extras = ["binary"], version = "^3.2.3"}
+email-validator = "2.2.0"
+ipython = "8.28.0"
+python-jose = "3.3.0"
 
 
 [tool.poetry.group.dev.dependencies]

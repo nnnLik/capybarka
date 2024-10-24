@@ -11,11 +11,11 @@ class MongoDBSettings(BaseSettings):
 
 
 class PostgresSettings(BaseSettings):
-    DB_HOST: str = Field(default="postgres")
-    DB_PORT: int = Field(default=6432)
-    DB_NAME: str = Field(default="postgres")
-    DB_USER: str = Field(default="postgres")
-    DB_PASSWORD: str = Field(default="postgres")
+    DB_HOST: str = Field(default="capybarka.postgres.docker")
+    DB_PORT: int = Field(default=5432)
+    DB_NAME: str = Field(default="capybarka")
+    DB_USER: str = Field(default="capybarka")
+    DB_PASSWORD: str = Field(default="capybarka")
 
     @property
     def DATABASE_DSN(self) -> str:
@@ -34,6 +34,7 @@ class KafkaSettings(BaseSettings):
 class ApplicationSettings(BaseSettings):
     ENVIRONMENT: str = Field(default='dev', description='dev/test/prod')
     TIME_ZONE: str = Field(default='Europe/Minsk')
+    SECRET_KEY: str = Field(default='samldsjdnawjdnaskjdnaweiudniwedniawu')
 
     HOST: str = Field(default='0.0.0.0')
     PORT: int = Field(default=8080)
