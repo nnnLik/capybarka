@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings
 
 
 class MongoDBSettings(BaseSettings):
-    MONGO_DSN: str = Field(default='mongodb://aligator:aligator@mongo.aligator.docker:27017')
+    MONGO_DSN: str = Field(default='mongodb://capybarka:capybarka@capybarka.mongo.docker:27017')
     MONGO_DATABASE_NAME: str = Field(default='aligator')
 
 
@@ -38,6 +38,7 @@ class ApplicationSettings(BaseSettings):
     SECRET_KEY: str = Field(default='samldsjdnawjdnaskjdnaweiudniwedniawu')
     AUTH_ALGORITHM: str = Field(default="HS256")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=1 * 60 * 24)
+    ALLOW_ORIGINS: list[str] = Field(default=['*'])
 
     HOST: str = Field(default='0.0.0.0')
     PORT: int = Field(default=8080)
