@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from infra.views.auth import auth_router
+from infra.views.auth_views import auth_router
 
 router = APIRouter(prefix='/api')
 

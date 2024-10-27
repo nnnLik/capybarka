@@ -34,7 +34,10 @@ class KafkaSettings(BaseSettings):
 class ApplicationSettings(BaseSettings):
     ENVIRONMENT: str = Field(default='dev', description='dev/test/prod')
     TIME_ZONE: str = Field(default='Europe/Minsk')
+
     SECRET_KEY: str = Field(default='samldsjdnawjdnaskjdnaweiudniwedniawu')
+    AUTH_ALGORITHM: str = Field(default="HS256")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=1 * 60 * 24)
 
     HOST: str = Field(default='0.0.0.0')
     PORT: int = Field(default=8080)

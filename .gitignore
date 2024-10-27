@@ -5,4 +5,4 @@ dist
 venv/
 __pycache__
 .docker-data
-backend/vars/dev.local
+*.local
