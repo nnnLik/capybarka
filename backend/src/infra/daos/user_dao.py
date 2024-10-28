@@ -1,5 +1,5 @@
 from infra.dtos import UserDTO
-from infra.repo import UserRepo
+from infra.repositories import UserRepo
 
 
 class UserDAO:

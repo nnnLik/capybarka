@@ -6,7 +6,7 @@ from mayim.extension import StarletteMayimExtension
 
 from config import settings
 
-from infra.repo import UserRepo
+from infra.repositories import UserRepo
 from infra.views import router
 
 

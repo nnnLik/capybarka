@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from config import settings
 from infra.daos import UserDAO
-from infra.repo import UserRepo
+from infra.repositories import UserRepo
 
 
 class LoginService:
