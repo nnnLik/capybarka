@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from uuid import UUID
 
 from fastapi.websockets import WebSocket
 
 
 @dataclass
-class BaseUserConnectionRepository(ABC):
+class IUserConnectionRepository(ABC):
     @abstractmethod
     async def connect(
         self,
@@ -28,7 +27,7 @@ class BaseUserConnectionRepository(ABC):
 
 
 @dataclass
-class BaseChannelRepository(ABC):
+class IChannelRepository(ABC):
     @abstractmethod
     async def add_user(self, channel_id: int, user_id: int,) -> None:
         ...

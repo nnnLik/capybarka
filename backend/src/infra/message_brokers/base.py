@@ -4,7 +4,7 @@ from typing import AsyncIterator
 
 
 @dataclass
-class BaseMessageBroker(ABC):
+class IMessageBroker(ABC):
     @abstractmethod
     async def send_message(self, key: bytes, topic: str, value: bytes) -> None:
         ...

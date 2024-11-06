@@ -1,2 +1,2 @@
-from infra.repositories.connections.base import BaseUserConnectionRepository, BaseChannelRepository
-from infra.repositories.connections.in_memory import InMemoryUserConnectionRepository, InMemoryServerUserRepository
+from infra.repositories.connections.base import IUserConnectionRepository, IChannelRepository
+from infra.repositories.connections.in_memory import InMemoryUserConnectionRepository, InMemoryChannelUserRepository

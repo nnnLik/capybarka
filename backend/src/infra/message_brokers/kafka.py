@@ -4,11 +4,11 @@ from typing import AsyncIterator
 import orjson
 from aiokafka import AIOKafkaProducer, AIOKafkaConsumer, ConsumerRecord
 
-from infra.message_brokers import BaseMessageBroker
+from infra.message_brokers import IMessageBroker
 
 
 @dataclass
-class KafkaMessageBroker(BaseMessageBroker):
+class KafkaMessageBroker(IMessageBroker):
     _producer: AIOKafkaProducer
     _consumer: AIOKafkaConsumer
 

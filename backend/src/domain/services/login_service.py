@@ -1,4 +1,6 @@
+from dataclasses import dataclass
 from datetime import timedelta, datetime
+from typing import ClassVar
 
 import jwt
 from passlib.context import CryptContext
@@ -7,9 +9,9 @@ from fastapi.security import OAuth2PasswordBearer
 
 from config import settings
 from infra.daos import UserDAO
-from infra.repositories import UserRepo
 
 
+@dataclass
 class LoginService:
     class UserDoesNotRegistered(Exception):
         pass
@@ -17,11 +19,10 @@ class LoginService:
     class InvalidUserPassword(Exception):
         pass
 
-    _pwd_context = CryptContext(schemes=["bcrypt", "sha256_crypt"], deprecated="auto")
-    _oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+    _user_dao: UserDAO
 
-    def __init__(self, user_dao: UserDAO) -> None:
-        self._user_dao = user_dao
+    # _pwd_context: ClassVar[CryptContext] = CryptContext(schemes=["bcrypt", "sha256_crypt"], deprecated="auto")
+    # _oauth2_scheme: ClassVar[OAuth2PasswordBearer] = OAuth2PasswordBearer(tokenUrl="token")
 
     def _verify_password(
         self,
@@ -55,11 +56,3 @@ class LoginService:
 
         access_token = self._create_access_token(email=email)
         return access_token
-
-
-def get_login_service() -> LoginService:
-    return LoginService(
-        user_dao=UserDAO(
-            user_repo=UserRepo(),
-        ),
-    )
