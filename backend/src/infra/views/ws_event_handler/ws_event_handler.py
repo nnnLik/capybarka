@@ -4,7 +4,6 @@ from fastapi.websockets import WebSocket
 from infra.repositories.connections import ConnectionRepository
 
 ws_event_handler_router = APIRouter()
-connection_repository = ConnectionRepository()
 
 
 @ws_event_handler_router.websocket('/event_handler/{user_id}')
