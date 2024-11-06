@@ -10,11 +10,17 @@ x-app-container: &app-container
     - vars/dev.env
     - vars/dev.local
   depends_on:
-    capybarka-mongodb:
+    mongodb:
       condition: service_healthy
+    postgres:
+      condition: service_healthy
+    kafka:
+      condition: service_started
+    zookeeper:
+      condition: service_started
 
 services:
-  capybarka-web:
+  web:
     <<: *app-container
     container_name: capybarka-web
     build:
@@ -29,7 +35,7 @@ services:
         aliases:
           - capybarka.web.docker
 
-  capybarka-postgres:
+  postgres:
     container_name: capybarka-postgres
     image: postgres:17.0-alpine
     environment:
@@ -54,7 +60,7 @@ services:
         aliases:
           - capybarka.postgres.docker
 
-  capybarka-mongodb:
+  mongodb:
     container_name: capybarka-mongodb
     image: mongo:8.0.1
     restart: unless-stopped
@@ -77,10 +83,39 @@ services:
         aliases:
           - capybarka.mongo.docker
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.7.1
+    container_name: capybarka-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      default:
+        aliases:
+          - capybarka.zookeeper.docker
+
+  kafka:
+    image: confluentinc/cp-kafka:7.7.1
+    container_name: capybarka-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "capybarka-zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://capybarka-kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      default:
+        aliases:
+          - capybarka.kafka.docker
+
 volumes:
   mongodb_data:
   postgres_data:
 
 networks:
   default:
-
