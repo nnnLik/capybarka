@@ -3,11 +3,11 @@ from typing import MutableMapping
 
 from fastapi.websockets import WebSocket
 
-from infra.repositories.connections import IUserConnectionRepository, IChannelRepository
+from infra.daos.connections.base import IUsersConnectionsDAO, IChannelDAO
 
 
 @dataclass
-class InMemoryUserConnectionRepository(IUserConnectionRepository):
+class InMemoryUsersConnectionsDAO(IUsersConnectionsDAO):
     _connections: MutableMapping[int, WebSocket | None] = field(default_factory=dict)
 
     async def connect(
@@ -35,7 +35,7 @@ class InMemoryUserConnectionRepository(IUserConnectionRepository):
 
 
 @dataclass
-class InMemoryChannelUserRepository(IChannelRepository):
+class InMemoryChannelUserDAO(IChannelDAO):
     _channels: MutableMapping[int, set[int]] = field(default_factory=dict)
 
     async def add_user(self, channel_id: int, user_id: int) -> None:

@@ -5,10 +5,8 @@ from typing import ClassVar
 import jwt
 from passlib.context import CryptContext
 
-from fastapi.security import OAuth2PasswordBearer
-
 from config import settings
-from infra.daos import UserDAO
+from infra.daos.user import IUserDAO, UserDoesNotExist
 
 
 @dataclass
@@ -19,10 +17,8 @@ class LoginService:
     class InvalidUserPassword(Exception):
         pass
 
-    _user_dao: UserDAO
-
-    # _pwd_context: ClassVar[CryptContext] = CryptContext(schemes=["bcrypt", "sha256_crypt"], deprecated="auto")
-    # _oauth2_scheme: ClassVar[OAuth2PasswordBearer] = OAuth2PasswordBearer(tokenUrl="token")
+    _user_dao: IUserDAO
+    _pwd_context: ClassVar[CryptContext] = CryptContext(schemes=["bcrypt", "sha256_crypt"], deprecated="auto")
 
     def _verify_password(
         self,
@@ -48,10 +44,12 @@ class LoginService:
     async def execute(self, email: str, password: str) -> str:
         try:
             user = await self._user_dao.get_user_by_email(email)
-        except self._user_dao.UserDoesNotExist:
+        except UserDoesNotExist:
             raise self.UserDoesNotRegistered
 
         if not self._verify_password(password, user.password):
+            print(password)
+            print(user.password)
             raise self.InvalidUserPassword
 
         access_token = self._create_access_token(email=email)

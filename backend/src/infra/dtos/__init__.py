@@ -1,1 +1,1 @@
-from infra.dtos.users_dtos import UserDTO
+from infra.dtos.users_dtos import UserDTO, UserReadDTO

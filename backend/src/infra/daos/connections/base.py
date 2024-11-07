@@ -5,7 +5,7 @@ from fastapi.websockets import WebSocket
 
 
 @dataclass
-class IUserConnectionRepository(ABC):
+class IUsersConnectionsDAO(ABC):
     @abstractmethod
     async def connect(
         self,
@@ -27,7 +27,7 @@ class IUserConnectionRepository(ABC):
 
 
 @dataclass
-class IChannelRepository(ABC):
+class IChannelDAO(ABC):
     @abstractmethod
     async def add_user(self, channel_id: int, user_id: int,) -> None:
         ...

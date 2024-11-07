@@ -16,10 +16,11 @@ class PostgresSettings(BaseSettings):
     DB_NAME: str = Field(default="capybarka")
     DB_USER: str = Field(default="capybarka")
     DB_PASSWORD: str = Field(default="capybarka")
+    ECHO: bool = Field(default=True)
 
     @property
     def DATABASE_DSN(self) -> str:
-        return f"postgres://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
 
 class KafkaSettings(BaseSettings):

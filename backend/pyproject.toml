@@ -10,7 +10,6 @@ python = "^3.12"
 fastapi = "0.115.3"
 uvicorn = "0.32.0"
 psycopg = {extras = ["binary"], version = "3.2.3"}
-mayim = {extras = ["postgres"], version = "1.1.0"}
 pydantic = "2.9.2"
 pydantic-settings = "2.6.0"
 email-validator = "2.2.0"
@@ -21,6 +20,8 @@ python-multipart = "0.0.16"
 aiokafka = {extras = ["lz4"], version = "0.12.0"}
 orjson = "3.10.10"
 punq = "0.7.0"
+sqlalchemy = "2.0.36"
+asyncpg = "^0.30.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "0.7.0"

@@ -1,10 +1,10 @@
 from typing import Annotated
 
-import punq
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi.websockets import WebSocket
 
-from infra.container import get_container
+from domain.services.connections_manager import ConnectionsManager, IConnectionsManager
+from infra.container import Service
 
 ws_event_handler_router = APIRouter()
 
@@ -13,7 +13,10 @@ ws_event_handler_router = APIRouter()
 async def ws_entrypoint(
     ws: WebSocket,
     user_id: int,
-    container: Annotated[punq.Container, Depends(get_container)],
+    connections_manager: Annotated[IConnectionsManager, Service(ConnectionsManager)],
 ) -> None:
-    # container.resolve()
-    ...
+    await connections_manager.setup_connection_with_user(
+        user_id=user_id,
+        ws=ws,
+    )
+
